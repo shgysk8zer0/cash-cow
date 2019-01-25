@@ -29,7 +29,6 @@
 		<title>Cash Cow</title>
 		<script type="module" src="js/index.js" async=""></script>
 		<link rel="stylesheet" href="css/styles/index.css" media="all" />
-		<link rel="import" href="components/drawing-canvas/drawing-canvas.html" name="drawing-canvas-template" async="" />
 		<!-- <link rel="import" href="components/login-form/login-form.html" name="login-form" async="" /> -->
 		<!-- <link rel="dns-prefetch" href="" /> -->
 		<link rel="icon" href="./img/favicon.svg" type="image/svg+xml" sizes="any" />
@@ -44,7 +43,7 @@
 		<nav id="nav" class="flex row no-wrap sticky top z-3"></nav>
 		<!-- <aside id="sidebar"></aside> -->
 		<main>
-			<drawing-canvas height="250" width="800" color="blue" fill-style="yellow"></drawing-canvas>
+			<canvas is="drawing-canvas" height="250" width="800" stroke="black" fill="white" class="card"></canvas>
 		</main>
 		<footer id="footer" class="relative z-1 color-alt" role="contentinfo">
 			<span>&copy;</span>

@@ -1,100 +1,39 @@
-import {importLink} from '../../js/std-js/functions.js';
-
-export default class HTMLDrawingCanvasElement extends HTMLElement {
-	constructor() {
-		super();
-		this.ctx = null;
-		this.classList.add('inline-block');
-	}
-
-	async connectedCallback() {
-		const shadow = this.attachShadow({mode: 'closed'});
-		const link = await importLink('drawing-canvas-template');
-		const tmp = link.cloneNode(true);
-		shadow.append(...tmp.head.children, ...tmp.body.children);
-		[...shadow.querySelectorAll('[data-click]')].forEach(async btn => {
-			switch(btn.dataset.click) {
-			case 'fill':
-				btn.addEventListener('click', async () => this.background = await prompt('What color?'));
-				break;
-			case 'stroke':
-				btn.addEventListener('click', async () => this.color = await prompt('What color?'));
-				break;
-			case 'save':
-				btn.addEventListener('click', async () => await this.save());
-				break;
-			case 'restore':
-				btn.addEventListener('click', async () => await this.restore());
-				break;
-			case 'erase':
-				btn.addEventListener('click', async () => await this.clear());
-				break;
-			default:
-				console.log(btn);
-			}
-		});
-		this.ctx = shadow.querySelector('canvas').getContext('2d', {alpha: this.alpha});
-		const canvas = this.canvas;
-		canvas.height = this.height;
-		canvas.width = this.width;
+export default class HTMLDrawingCanvasElement extends HTMLCanvasElement {
+	connectedCallback() {
+		this.ctx = this.getContext('2d', {alpha: this.alpha});
 		this.ctx.lineWidth = this.lineWidth;
-		this.ctx.fillStyle = this.fillStyle;
-		this.ctx.strokeStyle = this.color;
+		this.ctx.fillStyle = this.fill;
+		this.ctx.strokeStyle = this.stroke;
 		this.ctx.fillRect(0, 0, this.width, this.height);
 		this.dispatchEvent(new Event('ready'));
 
-		const ctx = this.ctx;
 		let mouse = {x: 0, y: 0};
+
 		function paint() {
-			ctx.lineTo(mouse.x, mouse.y);
-			ctx.stroke();
+			this.ctx.lineTo(mouse.x, mouse.y);
+			this.ctx.stroke();
 		}
 
-		this.canvas.addEventListener('mousemove', function(e) {
+		this.addEventListener('mousemove', e => {
 			mouse.x = e.pageX - this.offsetLeft;
 			mouse.y = e.pageY - this.offsetTop;
 		}, {
 			passive: true,
 		});
 
-		this.canvas.addEventListener('mousedown', () => {
+		this.addEventListener('mousedown', () => {
 			this.ctx.beginPath();
 			this.ctx.moveTo(mouse.x, mouse.y);
-			this.canvas.addEventListener('mousemove', paint, false);
+			this.addEventListener('mousemove', paint, false);
 		}, {
 			passive: true,
 		});
 
-		this.canvas.addEventListener('mouseup', () => {
-			this.canvas.removeEventListener('mousemove', paint, false);
+		this.addEventListener('mouseup', () => {
+			this.removeEventListener('mousemove', paint, false);
 		}, {
 			passive: true,
 		});
-	}
-
-
-	get canvas() {
-		if (this.ctx instanceof CanvasRenderingContext2D) {
-			return this.ctx.canvas;
-		} else {
-			return null;
-		}
-	}
-
-	get height() {
-		return parseInt(this.getAttribute('height'));
-	}
-
-	set height(height) {
-		this.setAttribute('height', height);
-	}
-
-	get width() {
-		return parseInt(this.getAttribute('width'));
-	}
-
-	set width(width) {
-		this.setAttribute('width', width);
 	}
 
 	get exportFormat() {
@@ -117,20 +56,20 @@ export default class HTMLDrawingCanvasElement extends HTMLElement {
 		}
 	}
 
-	get color() {
-		return this.getAttribute('color') || '#000';
+	get stroke() {
+		return this.getAttribute('stroke') || '#000';
 	}
 
-	set color(color) {
-		this.setAttribute('color', color);
+	set stroke(color) {
+		this.setAttribute('stroke', color);
 	}
 
-	get background() {
-		return this.getAttribute('background') || '#FFF';
+	get fill() {
+		return this.getAttribute('fill') || '#FFF';
 	}
 
-	set background(color) {
-		this.setAttribute('background', color);
+	set fill(color) {
+		this.setAttribute('fill', color);
 	}
 
 	get lineWidth() {
@@ -143,14 +82,6 @@ export default class HTMLDrawingCanvasElement extends HTMLElement {
 		}
 	}
 
-	get fillStyle() {
-		return this.getAttribute('fill-style');
-	}
-
-	set fillStyle(style) {
-		this.setAttribute('fill-style', style);
-	}
-
 	get alpha() {
 		return this.hasAttribute('alpha');
 	}
@@ -160,9 +91,7 @@ export default class HTMLDrawingCanvasElement extends HTMLElement {
 	}
 
 	get dataURL() {
-		return this.ready().then(() => {
-			return this.canvas.toDataURL();
-		});
+		return this.toDataURL();
 	}
 
 	get blob() {
@@ -175,74 +104,62 @@ export default class HTMLDrawingCanvasElement extends HTMLElement {
 
 	async ready() {
 		if (! (this.ctx instanceof CanvasRenderingContext2D)) {
-			await new Promise(resolve => this.addEventListener('ready', () => resolve(), {once: true}));
+			await new Promise(resolve => this.addEventListener('ready', resolve, {once: true}));
 		}
 	}
 
-	async save() {
-		await this.ready();
+	save() {
 		this.ctx.save();
 	}
 
-	async restore() {
-		await this.ready();
+	restore() {
 		this.ctx.restore();
 	}
 
 	async getImageData({x = 0, y = 0, width = this.width, height = this.height} = {}) {
-		await this.ready();
 		return this.ctx.getImageData(x, y, width, height);
 	}
 
 	async toBlob(mimeType = this.exportFormat, quality = this.exportQuality) {
-		await this.ready();
-		return await new Promise(resolve => this.ctx.canvas.toBlob(resolve, mimeType, quality));
+		return await new Promise(resolve => super.toBlob(resolve, mimeType, quality));
 	}
 
-	async fillRect({x = 0, y = 0, height = this.height, width = this.width, color} = {}) {
-		await this.ready();
+	fillRect({x = 0, y = 0, height = this.height, width = this.width, color} = {}) {
 		if (typeof color === 'string') {
 			this.color = color;
 		}
 		this.ctx.fillRect(x, y, width, height);
 	}
 
-	async clear({x = 0, y = 0, height = this.height, width = this.width} = {}) {
-		await this.ready();
+	clear({x = 0, y = 0, height = this.height, width = this.width} = {}) {
 		this.ctx.clearRect(x, y, width, height);
+		this.fillRect({x, y, width, height});
 	}
 
 	async attributeChangedCallback(name, oldValue, newValue) {
 		await this.ready();
-		console.log({name, oldValue, newValue});
-		switch(name.toLowerCase()) {
-		case 'height':
-			this.canvas.height = newValue;
+		switch(name) {
+		case 'fill':
+			this.ctx.fillStyle = newValue;
 			break;
-		case 'width':
-			this.canvas.width = newValue;
-			break;
-		case 'color':
+		case 'stroke':
 			this.ctx.strokeStyle = newValue;
 			break;
 		case 'line-width':
 			this.ctx.lineWidth = newValue;
 			break;
-		case 'fill-style':
-			this.ctx.fillStyle = newValue;
-			break;
+		default:
+			throw new Error(`Unhandled attribute change: "${name}"`);
 		}
 	}
 
 	static get observedAttributes() {
 		return [
-			'color',
+			'fill',
+			'stroke',
 			'line-width',
-			'fill-style',
-			'height',
-			'width',
 		];
 	}
 }
 
-customElements.define('drawing-canvas', HTMLDrawingCanvasElement);
+customElements.define('drawing-canvas', HTMLDrawingCanvasElement, {extends: 'canvas'});
