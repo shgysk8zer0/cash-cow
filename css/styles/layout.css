@@ -1,0 +1,33 @@
+@import url("./header.css");
+@import url("./nav.css");
+@import url("./main.css");
+@import url("./footer.css");
+
+body.grid {
+	grid-template-columns: 8px 1fr 8px;
+	grid-template-rows: var(--header-height) var(--nav-height) 1fr var(--footer-height);
+	grid-template-areas: 'header header header'
+	'nav nav nav'
+	'. main .'
+	'footer footer footer';
+}
+
+@media (min-width: 500px) {
+	body.grid {
+		grid-template-columns: 2rem 1fr 2rem;
+	}
+}
+
+button[is="share-button"] {
+	position: fixed;
+	z-index: 3;
+	bottom: 1.1em;
+	right: 1.1em;
+	box-shadow: var(--shadow-x, 0) var(--shadow-y, 2px) var(--shadow-blur, 10px) var(--shadow-spread, 0) var(--shadow-color, rgba(0,0,0,.2));
+	border-radius: 50%;
+	padding: 0.8rem;
+	text-align: center;
+	vertical-align: middle;
+	font-size: 1.65rem;
+	line-height: 1;
+}
