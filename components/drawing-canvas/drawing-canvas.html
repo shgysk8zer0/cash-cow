@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<head>
+		<meta charset="utf-8" />
+		<style>
+			@import url("/css/core-css/element.css");
+			@import url("/css/core-css/class-rules.css");
+
+			#container {
+				display: grid;
+				grid-template-columns: 8fr 1fr;
+				grid-template-areas: 'canvas fill'
+				'canvas stroke'
+				'canvas download'
+				'canvas save'
+				'canvas restore'
+				'canvas erase';
+			}
+
+			#canvas {
+				grid-area: canvas;
+			}
+
+			#fill-btn {
+				grid-area: fill;
+			}
+
+			#stroke-btn {
+				grid-area: stroke;
+			}
+
+			#download-btn {
+				grid-area: download;
+			}
+
+			#save-btn {
+				grid-area: save;
+			}
+
+			#restore-btn {
+				grid-area: restore;
+			}
+
+			#erase-btn {
+				grid-area: erase;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="container">
+			<canvas id="canvas"></canvas>
+			<button type="button" id="fill-btn" class="btn btn-primary" data-click="fill">
+				<slot name="bg-color-icon">Background</slot>
+			</button>
+			<button type="button" id="stroke-btn" class="btn btn-primary" data-click="stroke">
+				<slot name="color-icon">Color</slot>
+			</button>
+			<button type="button" id="download-btn" class="btn btn-primary" data-click="download">
+				<slot name="download-icon">Download</slot>
+			</button>
+			<button type="button" id="save-btn" class="btn btn-accept" data-click="save">
+				<slot name="save-icon">Save</slot>
+			</button>
+			<button type="button" id="restore-btn" class="btn btn-accept" data-click="restore">
+				<slot name="restore-icon">Restore</slot>
+			</button>
+			<button type="button" id="erase-btn" class="btn btn-reject">
+				<slot name="erase-icon">Erase</slot>
+			</button>
+		</div>
+	</body>
+</html>
