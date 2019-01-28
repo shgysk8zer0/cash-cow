@@ -41,10 +41,25 @@
 	</head>
 	<body class="border-box smooth-scroll background-primary color-default font-main grid">
 		<header id="header" class="background-cover background-center background-no-repeat background-fixed center"></header>
-		<nav id="nav" class="flex row no-wrap sticky top z-3"></nav>
+		<nav id="nav" class="flex row no-wrap sticky top z-3">
+			<button type="button" class="btn btn-primary" is="login-button" hidden="">
+				<svg class="current-color icon">
+					<use xlink:href="img/icons.svg#sign-in" />
+				</svg>
+			</button>
+			<button type="button" class="btn btn-primary" is="register-button" hidden="">
+				<svg class="current-color icon">
+					<use xlink:href="img/icons.svg#contact-new" />
+				</svg>
+			</button>
+			<button type="button" class="btn btn-reject" is="logout-button" hidden="">
+				<svg class="current-color icon">
+					<use xlink:href="img/icons.svg#sign-out" />
+				</svg>
+			</button>
+		</nav>
 		<!-- <aside id="sidebar"></aside> -->
-		<main>
-		</main>
+		<main></main>
 		<footer id="footer" class="relative z-1 color-alt" role="contentinfo">
 			<span>&copy;</span>
 			<time itemprop="copyrightYear" is="current-year"></time>
@@ -65,8 +80,40 @@
 					</svg>
 				</a>
 			</div>
-			<login-form></login-form>
-			<registration-form></registration-form>
+			<login-form>
+				<svg class="current-color icon" slot="submit-btn">
+					<use xlink:href="img/icons.svg#check" />
+				</svg>
+				<svg class="current-color icon" slot="reset-btn">
+					<use xlink:href="img/icons.svg#x" />
+				</svg>
+				<svg class="current-color icon" slot="username-label">
+					<use xlink:href="img/icons.svg#avatar-default" />
+				</svg>
+				<svg class="current-color icon" slot="password-label">
+					<use xlink:href="img/icons.svg#dialog-password" />
+				</svg>
+				<svg class="current-color icon" slot="register-btn">
+					<use xlink:href="img/icons.svg#contact-new" />
+				</svg>
+			</login-form>
+			<registration-form>
+				<svg class="current-color icon" slot="submit-btn">
+					<use xlink:href="img/icons.svg#check" />
+				</svg>
+				<svg class="current-color icon" slot="reset-btn">
+					<use xlink:href="img/icons.svg#x" />
+				</svg>
+				<svg class="current-color icon" slot="username-label">
+					<use xlink:href="img/icons.svg#avatar-default" />
+				</svg>
+				<svg class="current-color icon" slot="password-label">
+					<use xlink:href="img/icons.svg#dialog-password" />
+				</svg>
+				<svg class="current-color icon" slot="login-btn">
+					<use xlink:href="img/icons.svg#sign-in" />
+				</svg>
+			</registration-form>
 		</footer>
 		<button type="button" is="share-button">
 			<svg class="current-color icon" role="presentation">

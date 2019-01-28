@@ -1,4 +1,5 @@
 import {importLink} from '../../js/std-js/functions.js';
+import User from '../../js/User.js';
 
 export default class HTMLLoginFormElement extends HTMLElement {
 	constructor() {
@@ -13,25 +14,19 @@ export default class HTMLLoginFormElement extends HTMLElement {
 			const form = this.form;
 			container.classList.toggle('no-dialog', document.createElement('dialog') instanceof HTMLUnknownElement);
 
+			this.shadowRoot.querySelector('[is="register-button"]').addEventListener('click', () => {
+				this.close();
+				this.form.reset();
+			});
+
 			form.addEventListener('submit', async event => {
 				event.preventDefault();
-				const body = new FormData(this.form);
-				const headers = new Headers({Accept: 'application/json'});
-				const url = new URL('http://localhost:8000/login/');
-				const resp = await fetch(url, {
-					method: 'POST',
-					mode: 'cors',
-					body,
-					headers,
-				});
-
-				if (resp.ok) {
-					const detail = await resp.json();
+				const data = new FormData(this.form);
+				const username = data.get('username');
+				const password = data.get('password');
+				if (await User.login({username, password, store: true})) {
 					this.form.reset();
 					this.dialog.close();
-					document.dispatchEvent(new CustomEvent('login',{detail}));
-				} else {
-					console.error(`${resp.url} [${resp.status} ${resp.statusText}]`);
 				}
 			});
 			form.addEventListener('reset', () => container.querySelector('dialog').close());

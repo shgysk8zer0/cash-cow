@@ -1,10 +1,11 @@
 import {importLink} from '../../js/std-js/functions.js';
+import User from '../../js/User.js';
 
 export default class HTMLRegistrationFormElement extends HTMLElement {
 	constructor() {
 		super();
 		this.attachShadow({mode: 'open'});
-		importLink('login-form-template').then(async tmp => {
+		importLink('registration-form-template').then(async tmp => {
 			tmp = tmp.cloneNode(true);
 			const container = document.createElement('div');
 			container.append(...tmp.head.children, ...tmp.body.children);
@@ -12,25 +13,24 @@ export default class HTMLRegistrationFormElement extends HTMLElement {
 			const form = this.form;
 			container.classList.toggle('no-dialog', document.createElement('dialog') instanceof HTMLUnknownElement);
 
+			this.shadowRoot.querySelector('[is="login-button"]').addEventListener('click', () => {
+				this.close();
+				this.form.reset();
+			}, {
+				passive: true,
+			});
+
 			form.addEventListener('submit', async event => {
 				event.preventDefault();
-				const body = new FormData(this.form);
-				const headers = new Headers({Accept: 'application/json'});
-				const url = new URL('http://localhost:8000/login/');
-				const resp = await fetch(url, {
-					method: 'POST',
-					mode: 'cors',
-					body,
-					headers,
-				});
-
-				if (resp.ok) {
-					const detail = await resp.json();
+				const data = new FormData(this.form);
+				if (await User.register({
+					username: data.get('username'),
+					password: data.get('password'),
+					store: true,
+				})) {
 					this.form.reset();
 					this.dialog.close();
-					document.dispatchEvent(new CustomEvent('login',{detail}));
-				} else {
-					console.error(`${resp.url} [${resp.status} ${resp.statusText}]`);
+
 				}
 			});
 			form.addEventListener('reset', () => container.querySelector('dialog').close());

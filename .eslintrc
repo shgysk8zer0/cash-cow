@@ -29,6 +29,7 @@
     "globals": {
         "URLSearchParams": false,
         "ga": false,
+        "PasswordCredential": false,
         "clients": false,
         "skipWaiting": false
     }
