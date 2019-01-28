@@ -29,7 +29,8 @@
 		<title>Cash Cow</title>
 		<script type="module" src="js/index.js" async=""></script>
 		<link rel="stylesheet" href="css/styles/index.css" media="all" />
-		<!-- <link rel="import" href="components/login-form/login-form.html" name="login-form" async="" /> -->
+		<link rel="import" href="components/login-form/login-form.html" name="login-form-template" async="" />
+		<link rel="import" href="components/registration-form/registration-form.html" name="registration-form-template" async="" />
 		<!-- <link rel="dns-prefetch" href="" /> -->
 		<link rel="icon" href="./img/favicon.svg" type="image/svg+xml" sizes="any" />
 		<link rel="icon" href="./img/icon-32.png" type="image/png" sizes="32x32" />
@@ -42,7 +43,8 @@
 		<header id="header" class="background-cover background-center background-no-repeat background-fixed center"></header>
 		<nav id="nav" class="flex row no-wrap sticky top z-3"></nav>
 		<!-- <aside id="sidebar"></aside> -->
-		<main></main>
+		<main>
+		</main>
 		<footer id="footer" class="relative z-1 color-alt" role="contentinfo">
 			<span>&copy;</span>
 			<time itemprop="copyrightYear" is="current-year"></time>
@@ -63,6 +65,8 @@
 					</svg>
 				</a>
 			</div>
+			<login-form></login-form>
+			<registration-form></registration-form>
 		</footer>
 		<button type="button" is="share-button">
 			<svg class="current-color icon" role="presentation">
