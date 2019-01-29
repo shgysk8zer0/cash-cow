@@ -4,6 +4,7 @@ const KEYS = [
 	'created',
 	'updated',
 	'loggedIn',
+	'token',
 ];
 
 import HTMLGravatarImageElement from '../components/gravatar-img.js';
@@ -69,6 +70,14 @@ export default class User {
 		return ! Number.isNaN(parseInt(sessionStorage.getItem('id')));
 	}
 
+	static set token(token) {
+		sessionStorage.setItem('token', token);
+	}
+
+	static get token() {
+		return sessionStorage.getItem('token');
+	}
+
 	static async login({username, password, store = true, welcome = true}) {
 		const url = new URL('login/', ENDPOINT);
 		const headers = new Headers({Accept: 'application/json'});
@@ -88,11 +97,12 @@ export default class User {
 				const detail = await resp.json();
 
 				if (KEYS.every(key => detail.hasOwnProperty(key))) {
-					const {id, username, created, updated} = detail;
+					const {id, username, created, updated, token} = detail;
 					User.id = id;
 					User.username = username;
 					User.created = created;
 					User.updated = updated;
+					User.token = token;
 					document.dispatchEvent(new CustomEvent('login', {detail}));
 					if (store) {
 						await saveCredentials({username, password}).catch(console.error);
