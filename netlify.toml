@@ -10,7 +10,7 @@
       default-src 'self';
       img-src * blob: data:;
       script-src 'self' https://cdn.chriszuber.com;
-      style-src 'self' https://cdn.chriszuber.com;
+      style-src 'self' 'unsafe-inline' https://cdn.chriszuber.com;
       connect-src 'self' https://api.chriszuber.com https://cdn.chriszuber.com;
       font-src 'self' https://cdn.chriszuber.com;
       media-src *;
