@@ -26,8 +26,8 @@
       }
     },
     "dir": {
-      "css": "css/styles/",
-      "js": "js/ components/",
+      "css": "css/",
+      "js": "js/",
       "img": "img/"
     }
   },
