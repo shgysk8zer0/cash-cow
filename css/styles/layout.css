@@ -18,7 +18,7 @@ body.grid {
 	}
 }
 
-button[is="share-button"] {
+button:not([hidden])[is="share-button"] {
 	position: fixed;
 	z-index: 3;
 	bottom: 1.1em;
