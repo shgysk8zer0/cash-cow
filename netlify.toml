@@ -1,7 +1,27 @@
-# https://www.netlify.com/docs/netlify-toml-reference/
-[build]
-  base = "./"
-  publish = "./"
-  command = "npm run build"
-  [build.environment]
-    GIT_LFS_ENABLED = "1"
+[[headers]]
+  for="/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "no-referrer-when-downgrade"
+    Strict-Transport-Security = "max-age=31536000"
+    Content-Security-Policy = '''
+      default-src 'self';
+      img-src * blob: data:;
+      script-src 'self' https://cdn.chriszuber.com;
+      style-src 'self' https://cdn.chriszuber.com;
+      connect-src 'self' https://api.chriszuber.com https://cdn.chriszuber.com;
+      font-src 'self' https://cdn.chriszuber.com;
+      media-src *;
+      child-src 'self' https://api.chriszuber.com
+      frame-src 'self';
+      worker-src 'self' https://cdn.chriszuber.com;
+      block-all-mixed-content;
+      upgrade-insecure-requests;
+      disown-opener;
+      reflected-xss block;
+      manifest-src 'self';'''
+# [[redirects]]
+  # from = ""
+  # to = ""
