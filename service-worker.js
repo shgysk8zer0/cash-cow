@@ -15,6 +15,9 @@ const config = {
 		'/img/',
 		'/fonts/',
 	],
+	cdns: [
+		'https://cdn.chriszuber.com/',
+	].map(u => new URL(u)),
 };
 
 self.addEventListener('install', async () => {
@@ -48,11 +51,12 @@ self.addEventListener('fetch', async event => {
 			const url = new URL(req.url);
 			const isGet = req.method === 'GET';
 			const sameOrigin = url.origin === location.origin;
+			const isCDN = ! sameOrigin && config.cdns.some(cdn => url.origin === cdn.origin);
 			const isHome = ['/', '/index.html', '/index.php'].some(path => url.pathname === path);
 			const notIgnored = config.ignored.every(path => url.pathname !== path);
 			const allowedPath = config.paths.some(path => url.pathname.startsWith(path));
 
-			return isGet && sameOrigin && (isHome || (allowedPath && notIgnored));
+			return isCDN || (isGet && sameOrigin && (isHome || (allowedPath && notIgnored)));
 		} catch(err) {
 			console.error(err);
 			return false;
