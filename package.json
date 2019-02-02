@@ -45,6 +45,7 @@
     "fix": "npm run fix:js && npm run fix:css"
   },
   "devDependencies": {
+    "babel-eslint": "^10.0.1",
     "eslint": "^5.7.0",
     "eslint-plugin-async-await": "0.0.0",
     "eslint-plugin-babel": "^5.2.1",
