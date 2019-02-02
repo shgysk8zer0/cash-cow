@@ -5,6 +5,7 @@ import 'https://cdn.chriszuber.com/components/share-button.js';
 import 'https://cdn.chriszuber.com/components/login-button.js';
 import 'https://cdn.chriszuber.com/components/register-button.js';
 import 'https://cdn.chriszuber.com/components/logout-button.js';
+import 'https://cdn.chriszuber.com/components/youtube-video.js';
 import 'https://cdn.chriszuber.com/components/imgur-img.js';
 import 'https://cdn.chriszuber.com/components/imgur-gallery/imgur-gallery.js';
 import 'https://cdn.chriszuber.com/components/login-form/login-form.js';
