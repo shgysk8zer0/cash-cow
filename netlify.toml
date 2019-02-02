@@ -10,12 +10,12 @@
       default-src 'self';
       img-src * blob: data:;
       script-src 'self' https://cdn.chriszuber.com;
-      style-src 'self' 'unsafe-inline' https://cdn.chriszuber.com;
+      style-src 'self' 'unsafe-inline' https://cdn.chriszuber.com https://www.youtube.com;
       connect-src 'self' https://api.chriszuber.com https://cdn.chriszuber.com;
       font-src 'self' https://cdn.chriszuber.com;
       media-src *;
-      child-src 'self' https://api.chriszuber.com
-      frame-src 'self';
+      child-src 'self' https://api.chriszuber.com  https://www.youtube.com;
+      frame-src 'self'  https://www.youtube.com;
       worker-src 'self' https://cdn.chriszuber.com;
       block-all-mixed-content;
       upgrade-insecure-requests;
