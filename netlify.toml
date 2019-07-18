@@ -9,14 +9,14 @@
     Content-Security-Policy = '''
       default-src 'self';
       img-src * blob: data:;
-      script-src 'self' https://cdn.chriszuber.com;
-      style-src 'self' 'unsafe-inline' https://cdn.chriszuber.com https://www.youtube.com;
-      connect-src 'self' https://api.chriszuber.com https://cdn.chriszuber.com;
-      font-src 'self' https://cdn.chriszuber.com;
+      script-src 'self' https://cdn.kernvalley.us;
+      style-src 'self' 'unsafe-inline' https://cdn.kernvalley.us https://www.youtube.com;
+      connect-src 'self' https://api.kernvalley.us https://cdn.kernvalley.us;
+      font-src 'self' https://cdn.kernvalley.us;
       media-src *;
-      child-src 'self' https://api.chriszuber.com  https://www.youtube.com https://www.youtube-nocookie.com;
+      child-src 'self' https://api.kernvalley.us  https://www.youtube.com https://www.youtube-nocookie.com;
       frame-src 'self'  https://www.youtube.com https://www.youtube-nocookie.com;
-      worker-src 'self' https://cdn.chriszuber.com;
+      worker-src 'self' https://cdn.kernvalley.us;
       block-all-mixed-content;
       upgrade-insecure-requests;
       disown-opener;
